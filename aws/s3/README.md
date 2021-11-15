@@ -1,0 +1,47 @@
+# AWS S3
+
+## presigned url
+
+- 이름 그대로 사전에 서명된(권한을 부여한) URL을 생성, 해당 URL을 이용해 서버를 거치지 않고 사용자가 직접 파일을 S3에 업로드하거나 하는 등에 사용
+
+### 사용 테스트
+
+#### IAM 사용자 추가
+- 프로그래밍 방식 액세스 - 액세스 키 사용
+- 기존 정책 직접 연결 - 정책 생성
+  - GetObject,PutObject,PutObjectAcl
+  - 버킷 지정
+    - `arn:aws:s3:::bucket-name/*`
+
+#### 테스트 코드
+
+```javascript
+require('dotenv').config();
+
+var AWS = require('aws-sdk');
+var credentials = {
+    accessKeyId: process.env.S3_ACCESS_KEY,
+    secretAccessKey : process.env.S3_SECRET_KEY
+};
+
+AWS.config.update({credentials: credentials, region: 'ap-northeast-2'});
+var s3 = new AWS.S3();
+
+var presignedPUTURL = s3.getSignedUrl('putObject', {
+    Bucket: 'test-bucket',
+    Key: 'test.jpg',
+    Expires: 120,
+    ACL: 'public-read',
+    ContentType: 'image/jpeg'
+});
+
+console.log(presignedPUTURL);
+```
+
+- 120초 동안 `https://test-bucket.s3.ap-northeast-2.amazonaws.com/test.jpg` 에 public-read가 가능한 jpg 파일을 put method로 업로드 가능한 링크 생성 및 출력
+
+
+
+### 레퍼런스
+- https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html
+- https://medium.com/@aidan.hallett/securing-aws-s3-uploads-using-presigned-urls-aa821c13ae8d
