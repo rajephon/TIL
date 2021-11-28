@@ -25,3 +25,44 @@
 
 - https://www.cockroachlabs.com/lp/serverless/
 - [CockroachDB Serverless (beta) FAQs](https://www.cockroachlabs.com/docs/cockroachcloud/serverless-faqs.html#what-are-the-usage-limits-of-cockroachdb-serverless-beta)
+
+## 레이어에서의 클릭 처리
+
+```typescript
+const onClick = (event:MapEvent) => {
+  if (!event.features) {
+      console.error("event.features is undefined");
+      return;
+  }
+  if (!mapRef.current) {
+      console.error("mapRef.current is undefined");
+      return;
+  }
+  if (event.features.length === 0) {
+      console.error("event.features.length === 0");
+      return;
+  }
+  const feature = event.features[0];
+  console.log("feature.properties", JSON.stringify(event.features))
+  const clusterId = feature.properties.cluster_id;
+  if (clusterId !== "clusters") {
+      console.error("not clusters")
+      return;
+  }
+  console.log("onClick");
+};
+const MapArea = () => {
+  return (
+    <ReactMapGL {...viewport} interactiveLayerIds={["clusters", "unclustered-point"]} onClick={onClick}>
+        <Source id="source-id" type={'geojson'}
+          data={{type: "FeatureCollection", features: features}} cluster={true} clusterMaxZoom={14}>
+          <Layer id='clusters' source={"source-id"} type={'circle'} filter={['has', 'point_count']} paint={...} />
+          <Layer id='cluster-count' source={"source-id"} type={'symbol'} filter={['has', 'point_count']} layout={...} paint={{"text-color": "black"}}/>
+          <Layer id='unclustered-point' source={"source-id"}
+                       type={'circle'} filter={['!', ['has', 'point_count']]}
+                       paint={...} />
+        </Source>
+    </ReactMapGL>
+  )
+}
+```
