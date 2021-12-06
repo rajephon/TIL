@@ -28,6 +28,13 @@ nmap://place?lat={위도}&lng={경도}&name={위치이름}&appname=com.example.m
 https://map.kakao.com/link/map/{이름},{위도},{경도}
 ```
 
+### 구글 맵
+
+```text
+https://www.google.com/maps/search/?api=1&query={위도},{경도}
+```
+
+
 ### Reference
 - [Google Map, Naver Map URL 만들기 ](https://jehyunlee.github.io/2020/04/15/GIS-Python-1-GoogleMapNaverMap/)
 - [네이버 지도앱 연동 URL Scheme](https://guide.ncloud-docs.com/docs/naveropenapiv3-maps-url-scheme-url-scheme)
