@@ -55,3 +55,35 @@ const MyComponent = () => {
 - https://github.com/faisalman/ua-parser-js
 - https://stackoverflow.com/a/60932511
 - https://github.com/duskload/react-device-detect
+
+
+
+## 썸네일을 위한 메타 데이터
+
+### Open Graph protocol
+- 많은 값들이 있지만, 일단 당장 쓰는 것들로 보면,
+```html
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="%PUBLIC_URL%" />
+    <meta property="og:title" content="사이트 제목" />
+    <meta property="og:image" content="썸네일 이미지 url" />
+    <meta property="og:description" content="사이트 설명" />
+    <meta property="og:locale" content="ko_KR" />
+```
+
+
+### 트위터
+```html
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="사이트 제목" />
+    <meta name="twitter:description" content="사이트 설명" />
+    <meta name="twitter:image" content="사이트 썸네일" />
+```
+- 썸네일 이미지 주소는 절대주소를 사용한다.
+  - 리액트에서 `%PUBLIC_URL%`의 값이 공백으로 나타날 경우, `package.json`에 `homepage`값 지정여부 확인 및 .nev 파일에 `PUBLIC_URL` 를 환경변수 형태로 추가해준다.
+  
+
+### 테스트
+- 일반웹: [https://www.heymeta.com/](https://www.heymeta.com/)
+- 트위터: [https://cards-dev.twitter.com/validator](https://cards-dev.twitter.com/validator)
+- 카카오톡 서비스: [https://developers.kakao.com/tool/clear/og](https://developers.kakao.com/tool/clear/og)
