@@ -80,3 +80,35 @@ export default HeaderTest;
 ### Reference
 
 - [Menu item grouping and alignment](https://github.com/ant-design/ant-design/issues/10749#issuecomment-614181734)
+
+
+## Description 아이템 그리기
+
+`Descriptions`의 `column` 속성으로 한 줄에 표시할 컬럼 수를 지정하여 사용, `Descriptions.Item`에서 여러 칸을 차지하고 싶을 경우 span 속성 값으로 지정한다.
+
+```typescript
+import React from "react";
+import { Descriptions } from 'antd';
+
+const Desc:React.FC = () => {
+  return (
+    <Descriptions
+        title="title"
+        bordered
+        column={{ xxl: 4, xl: 4, lg: 4, md: 4, sm: 2, xs: 1 }}
+        style={{ marginTop: 20, backgroundColor: '#fff', padding: 20 }}
+        labelStyle={{ whiteSpace: 'nowrap' }} >
+        <Descriptions.Item label="UUID" span={4}>123</Descriptions.Item>
+        <Descriptions.Item label="GroupId" span={2}>234</Descriptions.Item>
+        <Descriptions.Item label="ProductId" span={2}>234</Descriptions.Item>
+        <Descriptions.Item label="CreateTime" span={2}>2022-01-01 11:22:33</Descriptions.Item>
+        <Descriptions.Item label="LastUpdate" span={2}>2022-01-04 11:22:33</Descriptions.Item>
+        <Descriptions.Item label="Article" span={4}>
+          {"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."}
+        </Descriptions.Item>
+    </Descriptions>
+  );
+}
+
+```
+
