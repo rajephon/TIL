@@ -112,3 +112,21 @@ const Desc:React.FC = () => {
 
 ```
 
+## Next.js 에서 antd 사용시 Warning: useLayoutEffect does nothing on the server 경고 발생
+
+> Warning: useLayoutEffect does nothing on the server, because its effect cannot be encoded into the server renderer's output format. This will lead to a mismatch between the initial, non-hydrated UI and the intended UI. To avoid this, useLayoutEffect should only be used in components that render exclusively on the client. See https://reactjs.org/link/uselayouteffect-ssr for common fixes.
+
+antd Menu 컴포넌트에서 사용중인 rc-menu의 rc-overflow가 useLayoutEffect를 사용하고 있어서 발생하는 문제 같음. PR이 올라와있기는한데, 언제 고쳐질지는 모르겠다.
+
+### 임시해결책
+
+```typescript
+const DQLayout = dynamic(() => import('@components/dq-layout'), {
+  ssr: false
+})
+```
+
+### Reference
+- [Select mode="multiple" throws useLayoutEffect warning in Next.js](https://github.com/ant-design/ant-design/issues/30396)
+- [Next.jsにAnt Designを導入する方法](https://qiita.com/suin/items/29c8ccf0ddc73565c91d)
+
