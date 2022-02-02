@@ -70,3 +70,48 @@ docker run -p 3000:3000 my-project:0.1
 
 ### Reference
 - [How to Dockerize and Deploy a Next.js Application on Koyeb](https://www.koyeb.com/tutorials/how-to-dockerize-and-deploy-a-next-js-application-on-koyeb)
+
+## 커스텀 에러 페이지
+
+- 서버 처리중 오류 발생할 경우 표시
+- `_error.tsx` 파일명으로 페이지 생성
+
+### 예시
+
+```typescript
+import React from 'react'
+import { NextPageContext } from 'next';
+import Image from 'next/image'
+import { Alert } from 'antd';
+
+interface ErrorComponentProps {
+  statusCode: number;
+  errorMessage?: string;
+}
+
+
+function ErrorComponent({ statusCode, errorMessage }:ErrorComponentProps): JSX.Element {
+  return <>
+    <h1>{statusCode}</h1>
+    <Image src={`https://http.cat/${statusCode}`} alt="Error" width={750} height={600} />
+    {errorMessage && <div style={{display: 'block'}}>
+      <Alert
+        message={`ERROR: ${statusCode}`}
+        description={errorMessage}
+        type="error"
+        showIcon
+      />
+    </div> }
+  </>
+}
+
+
+ErrorComponent.getInitialProps = ({ res, err }:NextPageContext) => {
+  const statusCode = res ? res.statusCode : err ? err.statusCode : 404
+  return { statusCode }
+}
+
+
+export default ErrorComponent;
+
+```
