@@ -115,3 +115,37 @@ ErrorComponent.getInitialProps = ({ res, err }:NextPageContext) => {
 export default ErrorComponent;
 
 ```
+
+
+## `<title>`은 `_document.js`의 `<Head>`에서 쓰지 말 것.
+
+- `_document.js`는 초기 pre-render 에서만 렌더링되기 때문에 `next/head`에서 예기치 못한 결과를 가져올 수 있다.
+- 예시: 각 페이지에서 `<title>`을 덧씌우고 브라우저 개발자 도구로 확인해보면 `<title>` 태그가 두 개가 들어있다던가, 등
+
+
+### 대안
+
+- `_app.js`를 사용하자.
+
+```typescript
+import { AppProps } from 'next/app'
+import Head from 'next/head'
+
+function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+  return (
+    <>
+      <Head>
+        <title>Hello World</title>
+      </Head>
+      <SessionProvider session={session}>
+        <Component {...pageProps} />
+      </SessionProvider>
+    </>
+  )
+}
+```
+
+### References
+
+- [`<title>` should not be used in _document.js's `<Head>`](https://nextjs.org/docs/messages/no-document-title)
+
